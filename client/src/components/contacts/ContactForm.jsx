@@ -31,17 +31,18 @@ const ContactForm = () => {
   const Submit = (e) => {
     e.preventDefault();
     if (current === null) {
-      addContact(contact);
-    } else if (!phone && !name) {
-      alert('At least, Please Enter Name & Phone Number');
-    } else if (!name) {
-      alert('Please Enter Name also');
-    } else if (!phone) {
-      !phone && alert('Please Add a Phone Number also');
+      if (!phone && !name) {
+        alert('At least, Please Enter Name & Phone Number');
+      } else if (!name) {
+        alert('Please Enter Name also');
+      } else if (!phone) {
+        !phone && alert('Please Add a Phone Number also');
+      } else {
+        addContact(contact);
+      }
     } else {
       updateContact(contact);
     }
-
     setContact({
       name: '',
       email: '',

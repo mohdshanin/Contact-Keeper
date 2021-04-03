@@ -2,52 +2,60 @@ import React, { useRef, useContext, useEffect, useState } from 'react';
 import ContactContext from '../../context/contact/contactContext';
 
 const ContactFilter = () => {
+  const [check, setCheck] = useState('');
   const contactContext = useContext(ContactContext);
-  const [contactTypeSearch, setContactTypeSearch] = useState('');
-  const [searchText, setSearchText] = useState('');
+  const text = useRef('');
   const radio = useRef('');
 
-  const { filterContacts, filtered } = contactContext;
-  console.log(filtered);
+  const { filterContacts, clearFilter, filtered } = contactContext;
 
   useEffect(() => {
-    filterContacts({ contactTypeSearch, searchText });
-  }, [contactTypeSearch, filterContacts, searchText]);
+    if (filtered === null) {
+      text.current.value = '';
+      filterContacts({ check });
+    }
+  }, [filterContacts, filtered, check]);
 
-  const onContactTypeChange = (e) => {
-    setContactTypeSearch(e.target.value);
+  const onChange = (e) => {
+    if (text.current.value !== '') {
+      filterContacts(e.target.value);
+      setCheck(e.target.value);
+    } else {
+      clearFilter();
+    }
   };
 
   return (
     <form>
       <input
+        ref={text}
         type="text"
         placeholder="Filter contacts..."
-        onChange={(e) => setSearchText(e.target.value)}
+        onChange={onChange}
       />
       <h5>Search Type</h5>
       <input
         type="radio"
         ref={radio}
         value=""
-        checked={contactTypeSearch === ''}
-        onChange={onContactTypeChange}
+        checked={check === ''}
+        onChange={onChange}
       />
       All{' '}
       <input
         type="radio"
         value="personal"
         ref={radio}
-        checked={contactTypeSearch === 'personal'}
-        onChange={onContactTypeChange}
+        checked={check === 'personal'}
+        onChange={onChange}
       />
       Personal{' '}
       <input
         type="radio"
         ref={radio}
         value="professional"
-        checked={contactTypeSearch === 'professional'}
-        onChange={onContactTypeChange}
+        checked={check === 'professional'}
+        onChange={onChange}
       />
       Professional
     </form>

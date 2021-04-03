@@ -8,7 +8,7 @@ const Contacts = () => {
   const { contacts, filtered } = contactContext;
 
   if (contacts.length === 0) {
-    return <h4>Please Add a Contact</h4>;
+    return <h3>No Contact Available Like This Search</h3>;
   }
 
   return (

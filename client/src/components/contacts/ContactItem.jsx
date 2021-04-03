@@ -3,7 +3,7 @@ import ContactContext from '../../context/contact/contactContext';
 import PropTypes from 'prop-types';
 
 const ContactItem = ({ contact }) => {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
 
   const contactContext = useContext(ContactContext);
   const { deleteContact, setCurrent, clearCurrent } = contactContext;
@@ -44,7 +44,7 @@ const ContactItem = ({ contact }) => {
         </>
       ) : null}
       <div>
-        {show ? (
+        {show && (
           <>
             {email && (
               <div className="list">
@@ -66,7 +66,7 @@ const ContactItem = ({ contact }) => {
               </button>
             </div>
           </>
-        ) : null}
+        )}
       </div>
     </div>
   );

@@ -7,28 +7,29 @@ import {
   FILTER_CONTACT,
   CLEAR_FILTER,
   // SET_CONTACT,
-  FILTER_TYPE,
 } from '../types';
 
 const contactReducer = (state, action) => {
   const { type, payload } = action || {};
+  const { contacts } = state || {};
+
   switch (type) {
     case ADD_CONTACT:
       return {
         ...state,
-        contacts: [...state.contacts, payload],
+        contacts: [...contacts, payload],
       };
     case UPDATE_CONTACT:
       return {
         ...state,
-        contacts: state.contacts.map((contact) =>
+        contacts: contacts.map((contact) =>
           contact.id === payload.id ? payload : contact
         ),
       };
     case DELETE_CONTACT:
       return {
         ...state,
-        contacts: state.contacts.filter((contact) => contact.id !== payload),
+        contacts: contacts.filter((contact) => contact.id !== payload),
       };
     case SET_CURRENT:
       return {
@@ -40,22 +41,20 @@ const contactReducer = (state, action) => {
         ...state,
         current: null,
       };
-    case FILTER_CONTACT: {
-      const { contactTypeSearch, searchText } = payload || {};
+    case FILTER_CONTACT:
       return {
         ...state,
-        filtered: state.contacts.filter((contact) => {
+        filtered: contacts.filter((contact) => {
           const { name, email, phone, type } = contact || {};
+          const regex = new RegExp(`${action.payload}`, 'gi');
           return (
-            (name.includes(searchText) ||
-              email.includes(searchText) ||
-              phone.includes(searchText)) &&
-            type.includes(contactTypeSearch)
+            name.match(regex) ||
+            email.match(regex) ||
+            phone.match(regex) ||
+            type.match(regex)
           );
         }),
       };
-    }
-
     case CLEAR_FILTER:
       return {
         ...state,

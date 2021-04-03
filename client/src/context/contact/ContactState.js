@@ -9,8 +9,8 @@ import {
   CLEAR_CURRENT,
   UPDATE_CONTACT,
   FILTER_CONTACT,
-  // SET_CONTACT,
   CLEAR_FILTER,
+  // SET_CONTACT,
 } from '../types';
 
 const ContactState = (props) => {
@@ -66,11 +66,8 @@ const ContactState = (props) => {
     dispatch({ type: UPDATE_CONTACT, payload: contact });
   };
   // Filter Contact
-  const filterContacts = ({ contactTypeSearch, searchText }) => {
-    dispatch({
-      type: FILTER_CONTACT,
-      payload: { contactTypeSearch, searchText },
-    });
+  const filterContacts = (text) => {
+    dispatch({ type: FILTER_CONTACT, payload: text });
   };
   // Clear Filter
   const clearFilter = () => {
